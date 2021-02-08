@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Profile = new mongoose.Schema({
+const ProfileSchema = new mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'user'
@@ -51,6 +51,9 @@ const Profile = new mongoose.Schema({
     ],
     education:[
         {
+            school:{
+                type: String
+            },
             degree:{
                 type: String
             },
@@ -63,6 +66,9 @@ const Profile = new mongoose.Schema({
             current:{
                 type: Boolean,
                 required:true
+            },
+            fieldofstudy:{
+                type: String
             }
         }
     ],
@@ -87,4 +93,4 @@ const Profile = new mongoose.Schema({
     ]
 });
 
-module.exports = Profile = monggose.model('profile', ProfileSchema);
+module.exports = Profile = mongoose.model('profile', ProfileSchema);
