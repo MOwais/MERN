@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react';
+import axios from 'axios';
 
 export const Register = () => {
     const [formData, setFormData] = useState({
@@ -11,13 +12,32 @@ export const Register = () => {
     const { name, email, password, confirmPassword } = formData;
     
     const onNameChange = (e) => setFormData({...formData,[e.target.name]:e.target.value})
-    const onSubmit = (e) => {
+   
+    const onSubmit = async (e) => {
         e.preventDefault();
         if(password!=confirmPassword){
             console.error('PASSWORDS DO NOT MATCH')
         }
         else{
             console.log('FORM DATA', formData);
+            const newUser = {
+                name,
+                email,
+                password
+            };
+
+            try {
+                const config = {
+                    headers:{
+                        'Content-Type':'application/json'
+                    }
+                }
+                const submitData = JSON.stringify(newUser);
+                const res = await axios.post('api/users', submitData, config);
+            } 
+            catch (err) {
+                console.error('error submitting register form: ', err);
+            }
         }
     }
     return (
