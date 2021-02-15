@@ -1,7 +1,12 @@
 import React, { Fragment, useState } from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setAlertAction } from '../../actions/alert';
+import PropTypes from "prop-types";
 
-export const Register = () => {
+
+export const Register = (props) => {
+    console.log("PROPS", props);
     const [formData, setFormData] = useState({
         name:'',
         email:'',
@@ -15,29 +20,32 @@ export const Register = () => {
    
     const onSubmit = async (e) => {
         e.preventDefault();
-        if(password!=confirmPassword){
-            console.error('PASSWORDS DO NOT MATCH')
+        if(password!==confirmPassword){
+            console.error('PASSWORDS DO NOT MATCH');
+            props.setAlertAction('Passwords do not match!', 'danger', '')
         }
         else{
             console.log('FORM DATA', formData);
-            const newUser = {
-                name,
-                email,
-                password
-            };
+            console.log('SUCCESS');
+        //     const newUser = {
+        //         name,
+        //         email,
+        //         password
+        //     };
 
-            try {
-                const config = {
-                    headers:{
-                        'Content-Type':'application/json'
-                    }
-                }
-                const submitData = JSON.stringify(newUser);
-                const res = await axios.post('api/users', submitData, config);
-            } 
-            catch (err) {
-                console.error('error submitting register form: ', err);
-            }
+        //     try {
+        //         const config = {
+        //             headers:{
+        //                 'Content-Type':'application/json'
+        //             }
+        //         }
+        //         const submitData = JSON.stringify(newUser);
+        //         const res = await axios.post('api/users', submitData, config);
+        //         console.log("RESP", res.data);
+        //     } 
+        //     catch (err) {
+        //         console.error('error submitting register form: ', err.response.data);
+        //     }
         }
     }
     return (
@@ -92,11 +100,16 @@ export const Register = () => {
             <input type="submit" className="btn btn-primary" value="Register" />
             </form>
             <p className="my-1">
-                Already have an account? <a href="login.html">Sign In</a>
+                Already have an account? <Link to="login">Sign In</Link>
             </p>
         </section>
         </Fragment>
     );
 }
 
-export default Register;
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired
+
+}
+
+export default connect(null, {setAlertAction})(Register);
