@@ -22,7 +22,7 @@ export const Register = (props) => {
         e.preventDefault();
         if(password!==confirmPassword){
             console.error('PASSWORDS DO NOT MATCH');
-            props.setAlertAction('Passwords do not match!', 'danger', '')
+            props.setAlertAction('Passwords do not match!', 'danger')
         }
         else{
             console.log('FORM DATA', formData);
@@ -108,7 +108,7 @@ export const Register = (props) => {
 }
 
 Register.propTypes = {
-    setAlert: PropTypes.func.isRequired
+    setAlertAction: PropTypes.func.isRequired
 
 }
 
