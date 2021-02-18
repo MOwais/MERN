@@ -63,25 +63,16 @@ router.post('/',[
     }
     catch(err){
         console.error(err.message);
-        res.status(500).send('Server Error');
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({errors:errors.array()})
+        }
+        else{
+            res.status(500).send('Server Error');
+            console.log("REQUEST.BODY", req.body);
+        }
+    
     }
-
-    console.log("REQUEST.BODY", req.body);
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors:errors.array()})
-    }
-
-    //see if email already exists
-
-    //get user gravatar
-
-    //encrypt password using bcrypt
-
-    //return jwt
-
-
-    //res.send('User route')
 });
 
 module.exports = router;
