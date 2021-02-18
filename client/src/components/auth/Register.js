@@ -1,8 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setAlertAction } from '../../actions/alert';
 import PropTypes from "prop-types";
+
+import { setAlertAction } from '../../actions/alert';
+import { registerUserAction } from '../../actions/auth';
+
 
 
 export const Register = (props) => {
@@ -25,27 +28,7 @@ export const Register = (props) => {
             props.setAlertAction('Passwords do not match!', 'danger')
         }
         else{
-            console.log('FORM DATA', formData);
-            console.log('SUCCESS');
-        //     const newUser = {
-        //         name,
-        //         email,
-        //         password
-        //     };
-
-        //     try {
-        //         const config = {
-        //             headers:{
-        //                 'Content-Type':'application/json'
-        //             }
-        //         }
-        //         const submitData = JSON.stringify(newUser);
-        //         const res = await axios.post('api/users', submitData, config);
-        //         console.log("RESP", res.data);
-        //     } 
-        //     catch (err) {
-        //         console.error('error submitting register form: ', err.response.data);
-        //     }
+           props.registerUserAction({name, email, password});
         }
     }
     return (
@@ -61,7 +44,7 @@ export const Register = (props) => {
                     name="name" 
                     value={name}
                     onChange={e => onNameChange(e)}
-                    required 
+               
                 />
             </div>
             <div className="form-group">
@@ -70,7 +53,7 @@ export const Register = (props) => {
                     placeholder="Email Address" 
                     name="email" 
                     onChange={e => onNameChange(e)}
-                    required
+                   
                 />
                 <small className="form-text"
                 >This site uses Gravatar so if you want a profile image, use a
@@ -82,9 +65,9 @@ export const Register = (props) => {
                     type="password"
                     placeholder="Password"
                     name="password"
-                    minLength="6"
+                   
                     onChange={e => onNameChange(e)}
-                    required 
+                   
                 />
             </div>
             <div className="form-group">
@@ -92,9 +75,9 @@ export const Register = (props) => {
                     type="password"
                     placeholder="Confirm Password"
                     name="confirmPassword"
-                    minLength="6"
+                
                     onChange={e => onNameChange(e)}
-                    required 
+                    
                 />
             </div>
             <input type="submit" className="btn btn-primary" value="Register" />
@@ -108,8 +91,9 @@ export const Register = (props) => {
 }
 
 Register.propTypes = {
-    setAlertAction: PropTypes.func.isRequired
+    setAlertAction: PropTypes.func.isRequired,
+    registerUserAction: PropTypes.func.isRequired
 
 }
 
-export default connect(null, {setAlertAction})(Register);
+export default connect(null, {setAlertAction, registerUserAction})(Register);
