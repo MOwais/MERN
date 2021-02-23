@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios';
 
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR } from './types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL } from './types';
 import { setAlertAction } from './alert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import setAuthToken from '../utils/setAuthToken';
@@ -11,7 +11,7 @@ export const loadUserAction = () => async dispatch =>{
     AsyncStorage.getItem('token').then(token=>{
         if(token)setAuthToken(token);
     });
-    
+
     try{
         const res = await axios.get('/api/auth');
         dispatch({
@@ -20,7 +20,6 @@ export const loadUserAction = () => async dispatch =>{
         });
     }
     catch(err){
-        alert("ERROR CALLED")
         console.error('load user action', err);
         dispatch({
             type:AUTH_ERROR
@@ -44,7 +43,8 @@ export const registerUserAction = ({ name, email, password }) => async dispatch 
             type:REGISTER_SUCCESS,
             payload:res.data
         });
-        dispatch(setAlertAction('Successfully Registered!', 'success'))
+        dispatch(setAlertAction('Successfully Registered!', 'success'));
+        dispatch(loadUserAction());
     }
     catch(err){
         const errors = err.response.data.errors;
@@ -54,6 +54,35 @@ export const registerUserAction = ({ name, email, password }) => async dispatch 
         }
         dispatch({
             type:REGISTER_FAIL
+        });
+    }
+}
+
+//Login user
+export const loginUserAction = (email, password) => async dispatch => {
+
+    const config = {
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    const submitData = JSON.stringify({ email, password });
+    try{
+        const res = await axios.post('api/auth', submitData, config);
+        dispatch({
+            type:LOGIN_SUCCESS,
+            payload:res.data
+        });
+        dispatch(loadUserAction());
+        //dispatch(setAlertAction('Successfully Lo!', 'success'))
+    }
+    catch(err){
+        const errors = err.response.data.errors;
+        if(errors){
+            errors.forEach(error => dispatch(setAlertAction(error.msg,'danger')))
+        }
+        dispatch({
+            type:LOGIN_FAIL
         });
     }
 }

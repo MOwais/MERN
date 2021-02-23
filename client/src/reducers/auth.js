@@ -1,5 +1,5 @@
 
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR } from '../actions/types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
                 user:payload
             }
         case REGISTER_SUCCESS:
-            console.log("PAYLOAD", payload)
+        case LOGIN_SUCCESS:
             AsyncStorage.setItem('token', payload.token);
             return{
                 ...state,
@@ -33,6 +33,7 @@ export default (state = initialState, action) => {
                 loading:false
             }
         case REGISTER_FAIL:
+        case LOGIN_FAIL:
             AsyncStorage.removeItem('token');
             return{
                 ...state,
@@ -42,7 +43,6 @@ export default (state = initialState, action) => {
             }
 
         case AUTH_ERROR:
-            alert("AUTH ERROR CALLED")
             AsyncStorage.removeItem('token');
             return{
                 ...state,
