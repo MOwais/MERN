@@ -9,7 +9,6 @@ import { registerUserAction } from '../../actions/auth';
 
 
 export const Register = (props) => {
-    console.log("PROPS", props);
     const [formData, setFormData] = useState({
         name:'',
         email:'',
@@ -35,7 +34,7 @@ export const Register = (props) => {
     if(props.isAuthenticated){
         return <Redirect to="/dashboard"/>
     }
-    
+
     return (
         <Fragment>
         <section className="container">

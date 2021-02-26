@@ -1,7 +1,16 @@
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios';
 
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL } from './types';
+import {
+    REGISTER_SUCCESS,
+    REGISTER_FAIL,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT 
+} 
+from './types';
 import { setAlertAction } from './alert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import setAuthToken from '../utils/setAuthToken';
@@ -85,4 +94,12 @@ export const loginUserAction = (email, password) => async dispatch => {
             type:LOGIN_FAIL
         });
     }
+}
+
+//logout
+
+export const logoutAction = () => dispatch =>{
+    dispatch({
+        type:LOGOUT
+    })
 }

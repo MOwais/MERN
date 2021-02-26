@@ -1,5 +1,13 @@
 
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
+import {
+    REGISTER_SUCCESS,
+    REGISTER_FAIL,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT } 
+from '../actions/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -34,6 +42,8 @@ export default (state = initialState, action) => {
             }
         case REGISTER_FAIL:
         case LOGIN_FAIL:
+        case AUTH_ERROR:
+        case LOGOUT:
             AsyncStorage.removeItem('token');
             return{
                 ...state,
