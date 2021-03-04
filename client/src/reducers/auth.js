@@ -6,7 +6,8 @@ import {
     AUTH_ERROR,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
-    LOGOUT } 
+    LOGOUT 
+} 
 from '../actions/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -45,7 +46,7 @@ export default (state = initialState, action) => {
         case AUTH_ERROR:
         case LOGOUT:
             AsyncStorage.removeItem('token');
-            return{
+            return {
                 ...state,
                 token:null,
                 isAuthenticated:false,
