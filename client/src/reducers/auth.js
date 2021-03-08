@@ -44,13 +44,15 @@ export default (state = initialState, action) => {
         case REGISTER_FAIL:
         case LOGIN_FAIL:
         case AUTH_ERROR:
+        //TODO Last user not refreshing after loggin in 
         case LOGOUT:
             AsyncStorage.removeItem('token');
             return {
                 ...state,
                 token:null,
                 isAuthenticated:false,
-                loading:false
+                loading:false,
+                user:null
             }
 
         case AUTH_ERROR:
