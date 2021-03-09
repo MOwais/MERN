@@ -7,7 +7,7 @@ import { getCurrentProfileAction } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
 
 const Dashboard = props => {
-    useEffect(() =>{
+    useEffect(() => {
         props.getCurrentProfileAction();
     }, []);
     //use array to only call once
