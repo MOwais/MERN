@@ -6,16 +6,16 @@ const ProfileSchema = new mongoose.Schema({
         ref:'user'
     },
     company:{
-        type: String
+        type:String
     },
     website:{
-        type: String
+        type:String
     },
     location:{
-        type: String
+        type:String
     },
     status:{
-        type: String
+        type:String
     },
     skills:{
         type:[String],
@@ -23,6 +23,9 @@ const ProfileSchema = new mongoose.Schema({
     },
     githubusername:{
         type: String
+    },
+    bio:{
+        type:String
     },
     experience:[
         {
@@ -72,7 +75,7 @@ const ProfileSchema = new mongoose.Schema({
             }
         }
     ],
-    social:[
+    social:
         {
             twitter:{
                 type: String
@@ -90,7 +93,7 @@ const ProfileSchema = new mongoose.Schema({
                 type: String
             }
         }
-    ]
+    
 });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema);

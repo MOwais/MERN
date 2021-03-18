@@ -5,20 +5,19 @@ import { Link } from 'react-router-dom';
 
 import { getCurrentProfileAction } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
+import DashboardActions from './DashboardActions';
 
 const Dashboard = props => {
     useEffect(() => {
         props.getCurrentProfileAction();
     }, []);
     //use array to only call once
-
-    //console.log("PROPSSSSSSS", props)
     return props.loading && props.profile === null ? <Spinner/>:<Fragment>
         <h1 className='large text-primary'>Dashboard</h1>
         <p className='lead'>
             <i className='fas fa-user'></i> Welcome { props.auth.user && props.auth.user.name }
         </p>
-        {props.profile.profile !== null ? <Fragment>has</Fragment>:
+        {props.profile.profile !== null ? <Fragment><DashboardActions/></Fragment>:
         <Fragment>
             <p>You have not setup a profile yet. Please add some information about youself.</p>
             <Link to='/create-profile' className='btn btn-primary my-1'>

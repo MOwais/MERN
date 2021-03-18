@@ -33,7 +33,8 @@ router.get('/me', auth, async (req, res) => {
 router.post('/', [auth,
     [
         check('status','Status is required').not().isEmpty(),
-        check('skills','Skills is required').not().isEmpty()
+        check('skills','Skills is required').not().isEmpty(),
+        check('bio','Bio is required').not().isEmpty()
 
     ]
 ],
@@ -67,7 +68,7 @@ async(req, res)=>{
     if(status) profileFields.status = status;
     if(bio) profileFields.bio = bio;
     if(skills){
-        profileFields.skills = skills.split(',').map(skill => skill.trim());
+        profileFields.skills = skills.map(skill => skill.trim());
     }
 
     //Build social object
@@ -78,6 +79,7 @@ async(req, res)=>{
     if(linkedin) profileFields.social.linkedin = linkedin;
     if(instagram) profileFields.social.instagram = instagram;
 
+    console.log("PROFILE FIELDS", profileFields);
     try {
         let profile = await Profile.findOne({ user: req.user.id });
 
