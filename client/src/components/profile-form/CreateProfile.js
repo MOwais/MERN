@@ -164,8 +164,4 @@ CreateProfile.propTypes = {
 
 }
 
-{/* const mapStateToProps = state => ({
-    
-}); */}
-
 export default connect(null,{ createProfileAction })(withRouter(CreateProfile));

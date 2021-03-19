@@ -18,7 +18,7 @@ const ProfileSchema = new mongoose.Schema({
         type:String
     },
     skills:{
-        type:[String],
+        type:String,
         required:true
     },
     githubusername:{
@@ -70,7 +70,7 @@ const ProfileSchema = new mongoose.Schema({
                 type: Boolean,
                 required:true
             },
-            fieldofstudy:{
+            fieldOfStudy:{
                 type: String
             }
         }

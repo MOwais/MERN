@@ -67,9 +67,10 @@ async(req, res)=>{
     if(githubusername) profileFields.githubusername = githubusername;
     if(status) profileFields.status = status;
     if(bio) profileFields.bio = bio;
-    if(skills){
-        profileFields.skills = skills.map(skill => skill.trim());
-    }
+    if(skills)profileFields.skills = skills;
+    // if(skills){
+    //     profileFields.skills = skills.map(skill => skill.trim());
+    // }
 
     //Build social object
     profileFields.social = {};
@@ -79,6 +80,7 @@ async(req, res)=>{
     if(linkedin) profileFields.social.linkedin = linkedin;
     if(instagram) profileFields.social.instagram = instagram;
 
+    console.log("S")
     console.log("PROFILE FIELDS", profileFields);
     try {
         let profile = await Profile.findOne({ user: req.user.id });
@@ -167,13 +169,15 @@ async(req,res)=>{
         description
     }
     try {
+        console.log("REQ USER ID", req.user.id);
         const profile = await Profile.findOne({user:req.user.id});
+        console.log("PROFILE", profile)
         profile.experience.unshift(newExp);
         await profile.save();
         res.json(profile);
     } 
     catch (err) {
-       console.error(err.message);
+       console.error('Error creating profile',err.message);
        res.status(500).send('Error updating profile'); 
     }
 });
@@ -206,7 +210,7 @@ router.put('/education', [auth, [
     check('school','School is required').not().isEmpty(),
     check('degree','Degree is required').not().isEmpty(),
     check('from','From date is required').not().isEmpty(),
-    check('fieldofstudy','Field of study is required').not().isEmpty()
+    check('fieldOfStudy','Field of study is required').not().isEmpty()
 ]], 
 async(req,res)=>{
     const errors = validationResult(req);
@@ -214,11 +218,11 @@ async(req,res)=>{
         res.status(400).json({errors:errors.array()})
     }
     
-    const {school, degree, fieldofstudy, from, to, current, description} = req.body;
+    const {school, degree, fieldOfStudy, from, to, current, description} = req.body;
     const newEdu = {
         school,
         degree,
-        fieldofstudy,
+        fieldOfStudy,
         from,
         to,
         current,
