@@ -6,18 +6,33 @@ import { Link } from 'react-router-dom';
 import { getCurrentProfileAction } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
+import Experience from './Experience';
+import Education from './Education';
+import profile from '../../reducers/profile';
 
-const Dashboard = props => {
+const Dashboard = ({
+    getCurrentProfileAction,
+    auth: { user },
+    profile: { profile, loading }
+}) => {
     useEffect(() => {
-        props.getCurrentProfileAction();
+        getCurrentProfileAction();
     }, []);
     //use array to only call once
-    return props.loading && props.profile === null ? <Spinner/>:<Fragment>
+
+    console.log("PROFILE ====>>>", profile);
+
+    return loading && profile === null ? <Spinner/>:<Fragment>
         <h1 className='large text-primary'>Dashboard</h1>
         <p className='lead'>
-            <i className='fas fa-user'></i> Welcome { props.auth.user && props.auth.user.name }
+            <i className='fas fa-user'></i> Welcome { user && user.name }
         </p>
-        {props.profile.profile !== null ? <Fragment><DashboardActions/></Fragment>:
+        {profile !== null ? 
+        <Fragment>
+            <DashboardActions/>
+            <Experience experience = {profile.experience}/>
+            <Education education = {profile.education}/>
+        </Fragment>:
         <Fragment>
             <p>You have not setup a profile yet. Please add some information about youself.</p>
             <Link to='/create-profile' className='btn btn-primary my-1'>
