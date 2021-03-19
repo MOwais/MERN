@@ -55,14 +55,14 @@ export default (state = initialState, action) => {
                 user:null
             }
 
-        case AUTH_ERROR:
-            AsyncStorage.removeItem('token');
-            return{
-                ...state,
-                token:null,
-                isAuthenticated:false,
-                loading:false
-            }
+        // case AUTH_ERROR:
+        //     AsyncStorage.removeItem('token');
+        //     return{
+        //         ...state,
+        //         token:null,
+        //         isAuthenticated:false,
+        //         loading:false
+        //     }
 
         default:
             return state;
