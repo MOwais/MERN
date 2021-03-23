@@ -5,6 +5,7 @@ const config = require('config');
 const { check, validationResult } = require('express-validator/check');
 const Profile = require('../../models/Profile');
 const Users = require('../../models/User');
+const Post = require('../../models/Post');
 const auth = require('../../middleware/auth');
 
 //@route  GET api/profile
@@ -80,7 +81,6 @@ async(req, res)=>{
     if(linkedin) profileFields.social.linkedin = linkedin;
     if(instagram) profileFields.social.instagram = instagram;
 
-    console.log("S")
     console.log("PROFILE FIELDS", profileFields);
     try {
         let profile = await Profile.findOne({ user: req.user.id });
@@ -119,6 +119,27 @@ router.get('/',async(req,res)=>{
     catch (err) {
         console.error(err.message);
         res.status(500).send('Error getting all profiles');
+    }
+});
+
+//@route  Delete api/profile
+//@desc   Delete profile, user, and posts
+//@access public
+
+router.delete('/', auth, async(req,res)=>{
+    console.log("DELETE PROFILE CALLLLLEDDDDDD")
+    try {
+        //Remove posts
+        await Post.deleteMany({user:req.user.id});
+        //Remove profile
+        await Profile.findOneAndRemove({user:req.user.id});
+        //Remove user
+        await User.findOneAndRemove({_id:req.user.id});
+        res.json({msg:'User Removed!'});
+    } 
+    catch (err) {
+        console.error('Error deleting profile', err.message);
+        res.status(500).send('Error deleting profile');
     }
 });
 
