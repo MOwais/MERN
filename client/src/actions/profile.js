@@ -3,13 +3,16 @@ import { setAlertAction } from './alert';
 
 import {
     GET_PROFILE,
+    GET_PROFILES,
     PROFILE_ERROR,
     UPDATE_PROFILE,
     ACCOUNT_DELETED,
-    CLEAR_PROFILE
+    CLEAR_PROFILE,
+    GET_REPOS
 }
 from './types';
 
+//Get profile
 export const getCurrentProfileAction = () => async dispatch => {
     try{
         const resp = await axios.get('/api/profile/me');
@@ -26,6 +29,62 @@ export const getCurrentProfileAction = () => async dispatch => {
         });
     }
 }
+
+//Get all profiles
+export const getAllProfilesAction = () => async dispatch => {
+    dispatch({type:CLEAR_PROFILE})
+    try{
+        const resp = await axios.get('/api/profile');
+        dispatch({
+            type:GET_PROFILES,
+            payload:resp.data
+        });
+    }
+    catch(err){
+        console.error('Error getting all profiles', err);
+        dispatch({
+            type:PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status:err.response.status}
+        });
+    }
+}
+
+//Get profile by ID
+export const getProfileByIDAction = userID => async dispatch => {
+    try{
+        const resp = await axios.get(`/api/profile/user/${userID}`);
+        dispatch({
+            type:GET_PROFILE,
+            payload:resp.data
+        });
+    }
+    catch(err){
+        console.error('Error getting profile by ID', err);
+        dispatch({
+            type:PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status:err.response.status}
+        });
+    }
+}
+
+//Get GitHub repos
+export const getGitHubReposAction = username => async dispatch => {
+    try{
+        const resp = await axios.get(`api/profile/github/${username}`);
+        dispatch({
+            type:GET_REPOS,
+            payload:resp.data
+        });
+    }
+    catch(err){
+        console.error('Error getting GitHub repos ', err);
+        dispatch({
+            type:PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status:err.response.status}
+        });
+    }
+}
+
 
 //create or update profile
 export const createProfileAction = (formData, history, edit = false) => async dispatch => {

@@ -9,7 +9,7 @@ const Post = require('../../models/Post');
 const auth = require('../../middleware/auth');
 
 //@route  GET api/profile
-//@desc   Test route
+//@desc   Get current user profile
 //@access Public
 router.get('/me', auth, async (req, res) => {
    try{
