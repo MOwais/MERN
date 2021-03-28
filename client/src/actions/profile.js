@@ -32,7 +32,7 @@ export const getCurrentProfileAction = () => async dispatch => {
 
 //Get all profiles
 export const getAllProfilesAction = () => async dispatch => {
-    dispatch({type:CLEAR_PROFILE})
+    dispatch({type:CLEAR_PROFILE});
     try{
         const resp = await axios.get('/api/profile');
         dispatch({
@@ -104,7 +104,7 @@ export const createProfileAction = (formData, history, edit = false) => async di
         const type = edit ? 'Profile Updated' : 'Profile Created';
         dispatch(setAlertAction(type, 'success'));
 
-        if(type == 'Profile Created'){
+        if(type === 'Profile Created'){
             history.push('/dashboard');
         }
     }
