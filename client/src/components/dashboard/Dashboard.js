@@ -8,7 +8,6 @@ import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
 import Experience from './Experience';
 import Education from './Education';
-import profile from '../../reducers/profile';
 
 const Dashboard = ({
     getCurrentProfileAction,
@@ -18,7 +17,7 @@ const Dashboard = ({
 }) => {
     useEffect(() => {
         getCurrentProfileAction();
-    }, []);
+    }, [getCurrentProfileAction]);
     //use array to only call once
 
     console.log("PROFILE ====>>>", profile);

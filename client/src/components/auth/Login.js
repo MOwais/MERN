@@ -11,7 +11,7 @@ export const Login = props => {
         password:''
     });
 
-    const { name, email, password, confirmPassword } = formData;
+    const { email, password } = formData;
     
     const onNameChange = (e) => setFormData({...formData,[e.target.name]:e.target.value})
    
