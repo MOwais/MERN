@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { setAlertAction } from './alert';
-import { GET_POSTS, POST_ERROR, UPDATE_LIKES } from './types';
+import { GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST } from './types';
 
 //Get Posts
-
 export const getPostsAction = () => async dispatch => {
     try {
         const resp = await axios.get('/api/posts');
@@ -22,7 +21,6 @@ export const getPostsAction = () => async dispatch => {
 }
 
 //Add like
-
 export const addLikesAction = postId => async dispatch => {
     try {
         const resp = await axios.put(`/api/posts/like/${postId}`);
@@ -43,8 +41,7 @@ export const addLikesAction = postId => async dispatch => {
     }
 }
 
-//Add like
-
+//Remove like
 export const removeLikesAction = postId => async dispatch => {
     try {
         const resp = await axios.put(`/api/posts/unlike/${postId}`);
@@ -58,6 +55,27 @@ export const removeLikesAction = postId => async dispatch => {
         })
     } catch (err) {
         console.error("REMOVE LIKE ACTION ERROR ", err);
+        dispatch({
+            type:POST_ERROR,
+            payload: { msg: err.response.statusText, status:err.response.status}
+        });
+    }
+}
+
+//Delete post
+export const deletePostAction = postId => async dispatch => {
+    try {
+        await axios.delete(`/api/posts/${postId}`);
+
+        dispatch({
+            type:DELETE_POST,
+            payload: postId
+        });
+
+        dispatch(setAlertAction('Post Removed!', 'success'));
+
+    } catch (err) {
+        console.error("DELETE POST ACTION ERROR ", err);
         dispatch({
             type:POST_ERROR,
             payload: { msg: err.response.statusText, status:err.response.status}
