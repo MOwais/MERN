@@ -154,8 +154,10 @@ router.get('/user/:user_id',async(req,res)=>{
             return res.status(400).json({msg:'Profile not found'});
         }
         res.json(profile);
+        //alert("SUCCESSFULLY GOT USER PROFILE");
     } 
     catch (err) {
+        //alert("ERROR GETTING USER PROFILE")
         console.error(err.message);
         if(err.kind == 'ObjectId'){
             return res.status(400).json({msg:'Profile not found'});
@@ -297,14 +299,14 @@ router.get('/github/:username',async(req,res)=>{
         }
 
         request(options,(error,response,body)=>{
-            if(error)console.error(error);
+            if(error)console.error('GIT HUB API ERROR', error);
             if(response.statusCode != 200)return res.status(404).json({msg:'No Github profile found'});
             res.json(JSON.parse(body));
         });
     } 
     catch (err) {
         console.error(err);
-        res.status(500).send('Error getting user repos');
+        res.status(500).send('API - Error getting user repos');
     }
 });
 
