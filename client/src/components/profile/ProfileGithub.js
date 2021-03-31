@@ -10,10 +10,11 @@ const ProfileGithub = ({username, getGitHubReposAction, repos }) => {
     useEffect(() => {
         getGitHubReposAction(username);
     }, [getGitHubReposAction]);
+    console.log("REPOSSSSSSS", repos)
     return (
         <div className='profile-github'>
             <h2 className="text-primary my-1">Github Repos</h2>
-            {repos === null ? <Spinner /> : 
+            {!repos ? <Spinner /> : 
                 repos.map(repo => (
                     <div key={repo.id} className='repo bg-white my-1 p-1'>
                         <div> 
