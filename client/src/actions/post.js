@@ -1,6 +1,15 @@
 import axios from 'axios';
 import { setAlertAction } from './alert';
-import { GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST, ADD_POST } from './types';
+import { 
+    GET_POSTS, 
+    POST_ERROR, 
+    UPDATE_LIKES, 
+    DELETE_POST, 
+    ADD_POST, 
+    GET_POST,
+    ADD_COMMENT,
+    REMOVE_COMMENT
+} from './types';
 
 //Get Posts
 export const getPostsAction = () => async dispatch => {
@@ -103,6 +112,75 @@ export const addPostAction = formData => async dispatch => {
 
     } catch (err) {
         console.error("ADD POST ACTION ERROR ", err);
+        dispatch({
+            type:POST_ERROR,
+            payload: { msg: err.response.statusText, status:err.response.status}
+        });
+    }
+}
+
+//Get Post
+export const getPostAction = postId => async dispatch => {
+    try {
+        const resp = await axios.get(`/api/posts/${postId}`);
+
+        dispatch({
+            type:GET_POST,
+            payload:resp.data
+        });
+    } 
+    catch (err) {
+        console.error("GET POST ACTION ERROR ", err);
+        dispatch({
+            type:POST_ERROR,
+            payload: { msg: err.response.statusText, status:err.response.status}
+        });
+    }
+}
+
+//Add comment
+export const addCommentAction = (postId, formData) => async dispatch => {
+    const config = {
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+
+    try {
+        const resp = await axios.post(`/api/posts/comments/${postId}`, formData, config);
+
+        dispatch({
+            type:ADD_COMMENT,
+            payload: resp.data
+        });
+
+        dispatch(setAlertAction('Comment Added!', 'success'));
+
+    } 
+    catch (err) {
+        console.error("ADD COMMENT ACTION ERROR ", err);
+        dispatch({
+            type:POST_ERROR,
+            payload: { msg: err.response.statusText, status:err.response.status}
+        });
+    }
+}
+
+//Delete comment
+export const deleteCommentAction = (postId, commentId) => async dispatch => {
+    try {
+        const resp = await axios.delete(`/api/posts/comments/${postId}/${commentId}`);
+
+        dispatch({
+            type:REMOVE_COMMENT,
+            payload: commentId
+        });
+
+        dispatch(setAlertAction('Comment Removed!', 'success'));
+
+    } 
+    catch (err) {
+        console.error("REMOVE COMMENT ACTION ERROR ", err);
         dispatch({
             type:POST_ERROR,
             payload: { msg: err.response.statusText, status:err.response.status}
